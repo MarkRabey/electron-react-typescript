@@ -4,6 +4,8 @@ import * as url from 'url';
 
 let win: BrowserWindow | null;
 
+const isDevMode = process.execPath.match(/[\\/]electron/) && process.env.NODE_ENV !== 'production';
+
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer');
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
@@ -15,13 +17,13 @@ const installExtensions = async () => {
 };
 
 const createWindow = async () => {
-  if (process.env.NODE_ENV !== 'production') {
+  if (isDevMode) {
     await installExtensions();
   }
 
   win = new BrowserWindow({ width: 800, height: 600 });
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (isDevMode) {
     win.loadURL(`http://localhost:2003`);
   } else {
     win.loadURL(
@@ -33,7 +35,7 @@ const createWindow = async () => {
     );
   }
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (isDevMode) {
     // Open DevTools
     win.webContents.openDevTools();
   }
