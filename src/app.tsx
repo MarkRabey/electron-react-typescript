@@ -12,23 +12,23 @@ document.body.appendChild(mainElement);
 
 // Render components
 const render = (Component: () => JSX.Element) => {
-    ReactDOM.render(
-        <AppContainer>
-            <Provider store={store}>
-                <Component />
-            </Provider>
-        </AppContainer>,
-        mainElement
-    );
+  ReactDOM.render(
+    <AppContainer>
+      <Provider store={store}>
+        <Component />
+      </Provider>
+    </AppContainer>,
+    mainElement
+  );
 };
 
 render(Application);
 
 // Hot Module Replacement API
 if (typeof module.hot !== 'undefined') {
-    module.hot.accept('./components/Application', () => {
-        import('./components/Application').then(World => {
-            render(World.default);
-        });
+  module.hot.accept('./components/Application', () => {
+    import('./components/Application').then(World => {
+      render(World.default);
     });
+  });
 }
